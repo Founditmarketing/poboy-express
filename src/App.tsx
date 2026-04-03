@@ -280,7 +280,7 @@ const Hero = () => {
           transition={{
             x: { type: "tween", ease: "easeInOut", duration: 1.2 }
           }}
-          className="absolute inset-0 w-full h-full flex items-end pb-24 pt-44 md:pt-32 px-4 sm:px-8 lg:px-12"
+          className="absolute inset-0 w-full h-full flex items-end pb-24 pt-[16rem] md:pt-32 px-4 sm:px-8 lg:px-12"
         >
           {/* Background Image */}
           <div className="absolute inset-0 z-0 overflow-hidden">
@@ -299,7 +299,7 @@ const Hero = () => {
               <div className="w-12 h-[3px] bg-poboy-red"></div>
               <span className="text-poboy-red font-bold tracking-[0.2em] uppercase text-sm drop-shadow-md">{slides[imageIndex].subtitle}</span>
             </div>
-            <h1 className="text-5xl md:text-7xl font-display font-normal text-white leading-[0.9] mb-6 uppercase tracking-tight">
+            <h1 className="text-[2.5rem] md:text-7xl font-display font-normal text-white leading-[1] md:leading-[0.9] mb-6 uppercase tracking-tight">
               {slides[imageIndex].title} <br />
               <span className="text-poboy-yellow">{slides[imageIndex].highlight}</span> {slides[imageIndex].suffix}
             </h1>
