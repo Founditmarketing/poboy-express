@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import { ChevronRight } from 'lucide-react';
+import { ChevronRight, Search } from 'lucide-react';
 import { MENU_CATALOG } from '../data/menuData';
 import { Category, Product } from '../types/Menu';
 import { ProductModal } from '../components/ProductModal';
@@ -19,6 +19,7 @@ const getCategoryIcon = (category: string) => {
 
 export const MenuPage = () => {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [searchQuery, setSearchQuery] = useState('');
   const location = useLocation();
   
   useEffect(() => {
@@ -36,7 +37,11 @@ export const MenuPage = () => {
   }, [location.hash]);
   
   // Group products by category
-  const productsByCategory = MENU_CATALOG.reduce((acc, product) => {
+  const productsByCategory = MENU_CATALOG.filter(product => {
+    if (!searchQuery) return true;
+    const q = searchQuery.toLowerCase();
+    return product.name.toLowerCase().includes(q) || product.description?.toLowerCase().includes(q) || product.category.toLowerCase().includes(q);
+  }).reduce((acc, product) => {
     if (!acc[product.category]) {
       acc[product.category] = [];
     }
@@ -84,7 +89,27 @@ export const MenuPage = () => {
               Order Online / Delivery Here
             </a>
           </div>
+
+          <div className="mt-8 relative max-w-xl">
+            <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+              <Search className="h-5 w-5 text-gray-400" />
+            </div>
+            <input
+              type="text"
+              className="block w-full pl-11 pr-4 py-4 border-2 border-gray-200 rounded-xl leading-5 bg-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-poboy-yellow focus:border-poboy-yellow transition-all sm:text-sm font-medium shadow-sm"
+              placeholder="Search for po'boys, baskets, kids meals..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+          </div>
         </div>
+
+        {Object.keys(productsByCategory).length === 0 && searchQuery && (
+          <div className="text-center py-20">
+            <h3 className="text-2xl font-display text-gray-400 mb-2">No items found</h3>
+            <p className="text-gray-500">We couldn't find anything matching "{searchQuery}". Try a different keyword!</p>
+          </div>
+        )}
 
         {categories.map(category => {
           const items = productsByCategory[category];
