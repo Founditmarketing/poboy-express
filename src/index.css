@@ -1,0 +1,28 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Oswald:wght@800&family=Zilla+Slab:wght@600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Manrope", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Zilla Slab", ui-serif, Georgia, serif;
+  --font-oswald: "Oswald", sans-serif;
+  
+  --color-poboy-yellow: #ffce04;
+  --color-poboy-red: #ca001a;
+  --color-poboy-black: #111111;
+  --color-poboy-dark: #222222;
+  --color-poboy-white: #ffffff;
+  --color-poboy-gray: #f4f4f5;
+  --color-poboy-cream: #f9f5f0;
+  --color-poboy-green: #0c3b2e;
+}
+
+body {
+  font-family: var(--font-sans);
+  color: var(--color-poboy-black);
+  background-color: var(--color-poboy-white);
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6, .font-display {
+  font-family: var(--font-display);
+}
