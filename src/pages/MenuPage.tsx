@@ -17,6 +17,46 @@ const getCategoryIcon = (category: string) => {
   return 'basket.png';
 };
 
+const ProductCard = ({ product, onClick }: { product: Product, onClick: () => void, key?: string | number }) => (
+  <div 
+    onClick={onClick}
+    className="bg-white rounded-xl shadow-[0_4px_20px_rgba(0,0,0,0.04)] hover:shadow-xl hover:-translate-y-1 transition-all duration-300 overflow-hidden cursor-pointer flex flex-col group border border-gray-100"
+  >
+    {product.imageUrl && (
+      <div className="h-56 w-full overflow-hidden">
+        <img 
+          src={product.imageUrl} 
+          alt={product.name} 
+          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
+        />
+      </div>
+    )}
+    <div className="p-6 flex flex-col flex-1">
+      <div className="flex justify-between items-start mb-3 gap-4">
+        <h3 className="text-2xl font-display text-poboy-black group-hover:text-poboy-red transition-colors flex items-start gap-3 flex-1">
+          <img src={`/${getCategoryIcon(product.category)}`} alt="" className="w-7 h-7 object-contain shrink-0 mt-0.5" />
+          <span>{product.name}</span>
+        </h3>
+        <span className="font-semibold text-lg shrink-0 text-right">
+          {product.price > 0 ? (
+            `$${product.price.toFixed(2)}`
+          ) : (
+            product.sizes && product.sizes.length > 0 
+              ? <span className="text-sm font-normal text-gray-500">From <br/><span className="text-lg font-semibold text-poboy-black">${Math.min(...product.sizes.map(s => s.price)).toFixed(2)}</span></span>
+              : '$0.00'
+          )}
+        </span>
+      </div>
+      <p className="text-gray-500 line-clamp-3 mb-6 flex-1 text-sm leading-relaxed">
+        {product.description}
+      </p>
+      <button className="flex items-center text-poboy-red font-display uppercase tracking-widest text-sm font-semibold mt-auto group-hover:gap-2 transition-all">
+        Customize & Add <ChevronRight size={16} />
+      </button>
+    </div>
+  </div>
+);
+
 export const MenuPage = () => {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [inputValue, setInputValue] = useState('');
@@ -135,60 +175,36 @@ export const MenuPage = () => {
           </div>
         )}
 
-        {categories.map(category => {
-          const items = productsByCategory[category];
-          if (!items || items.length === 0) return null;
-
-          return (
-            <div key={category} className="mb-16 scroll-mt-24" id={category.replace(/[^a-zA-Z0-9]/g, '').toLowerCase()}>
-              <h2 className="text-4xl font-display font-normal text-poboy-red border-b-2 border-gray-200 pb-3 mb-8 uppercase">
-                {category}
-              </h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {items.map(product => (
-                  <div 
-                    key={product.id}
-                    onClick={() => setSelectedProduct(product)}
-                    className="bg-white rounded-xl shadow-[0_4px_20px_rgba(0,0,0,0.04)] hover:shadow-xl hover:-translate-y-1 transition-all duration-300 overflow-hidden cursor-pointer flex flex-col group border border-gray-100"
-                  >
-                    {product.imageUrl && (
-                      <div className="h-56 w-full overflow-hidden">
-                        <img 
-                          src={product.imageUrl} 
-                          alt={product.name} 
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
-                        />
-                      </div>
-                    )}
-                    <div className="p-6 flex flex-col flex-1">
-                      <div className="flex justify-between items-start mb-3 gap-4">
-                        <h3 className="text-2xl font-display text-poboy-black group-hover:text-poboy-red transition-colors flex items-start gap-3 flex-1">
-                          <img src={`/${getCategoryIcon(product.category)}`} alt="" className="w-7 h-7 object-contain shrink-0 mt-0.5" />
-                          <span>{product.name}</span>
-                        </h3>
-                        <span className="font-semibold text-lg shrink-0 text-right">
-                          {product.price > 0 ? (
-                            `$${product.price.toFixed(2)}`
-                          ) : (
-                            product.sizes && product.sizes.length > 0 
-                              ? <span className="text-sm font-normal text-gray-500">From <br/><span className="text-lg font-semibold text-poboy-black">${Math.min(...product.sizes.map(s => s.price)).toFixed(2)}</span></span>
-                              : '$0.00'
-                          )}
-                        </span>
-                      </div>
-                      <p className="text-gray-500 line-clamp-3 mb-6 flex-1 text-sm leading-relaxed">
-                        {product.description}
-                      </p>
-                      <button className="flex items-center text-poboy-red font-display uppercase tracking-widest text-sm font-semibold mt-auto group-hover:gap-2 transition-all">
-                        Customize & Add <ChevronRight size={16} />
-                      </button>
-                    </div>
-                  </div>
-                ))}
-              </div>
+        {searchQuery && Object.keys(productsByCategory).length > 0 ? (
+          <div className="mb-16">
+            <h2 className="text-4xl font-display font-normal text-poboy-red border-b-2 border-gray-200 pb-3 mb-8 uppercase">
+              Search Results
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {Object.values(productsByCategory).flat().map(product => (
+                <ProductCard key={product.id} product={product} onClick={() => setSelectedProduct(product)} />
+              ))}
             </div>
-          );
-        })}
+          </div>
+        ) : (
+          categories.map(category => {
+            const items = productsByCategory[category];
+            if (!items || items.length === 0) return null;
+
+            return (
+              <div key={category} className="mb-16 scroll-mt-24" id={category.replace(/[^a-zA-Z0-9]/g, '').toLowerCase()}>
+                <h2 className="text-4xl font-display font-normal text-poboy-red border-b-2 border-gray-200 pb-3 mb-8 uppercase">
+                  {category}
+                </h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {items.map(product => (
+                    <ProductCard key={product.id} product={product} onClick={() => setSelectedProduct(product)} />
+                  ))}
+                </div>
+              </div>
+            );
+          })
+        )}
       </div>
 
       <ProductModal 
