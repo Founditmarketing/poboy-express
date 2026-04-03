@@ -19,6 +19,7 @@ const getCategoryIcon = (category: string) => {
 
 export const MenuPage = () => {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [inputValue, setInputValue] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
   const location = useLocation();
   
@@ -90,18 +91,41 @@ export const MenuPage = () => {
             </a>
           </div>
 
-          <div className="mt-8 relative max-w-xl">
-            <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-              <Search className="h-5 w-5 text-gray-400" />
+          <form 
+            onSubmit={(e) => {
+              e.preventDefault();
+              setSearchQuery(inputValue);
+            }}
+            className="mt-8 max-w-2xl flex flex-col sm:flex-row gap-3"
+          >
+            <div className="relative flex-1">
+              <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                <Search className="h-5 w-5 text-gray-400" />
+              </div>
+              <input
+                type="text"
+                className="block w-full pl-11 pr-16 py-4 border-2 border-gray-200 rounded-xl leading-5 bg-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-poboy-yellow focus:border-poboy-yellow transition-all sm:text-sm font-medium shadow-sm"
+                placeholder="Search for po'boys, baskets, kids meals..."
+                value={inputValue}
+                onChange={(e) => setInputValue(e.target.value)}
+              />
+              {inputValue && (
+                <button
+                  type="button"
+                  onClick={() => { setInputValue(''); setSearchQuery(''); }}
+                  className="absolute inset-y-0 right-0 pr-4 pl-2 flex items-center text-sm font-semibold text-gray-400 hover:text-poboy-red transition-colors touch-manipulation"
+                >
+                  Clear
+                </button>
+              )}
             </div>
-            <input
-              type="text"
-              className="block w-full pl-11 pr-4 py-4 border-2 border-gray-200 rounded-xl leading-5 bg-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-poboy-yellow focus:border-poboy-yellow transition-all sm:text-sm font-medium shadow-sm"
-              placeholder="Search for po'boys, baskets, kids meals..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
-          </div>
+            <button
+              type="submit"
+              className="bg-poboy-red hover:bg-red-700 text-white px-8 py-4 rounded-xl font-display font-medium tracking-wide shadow-md hover:shadow-lg transition-all shrink-0"
+            >
+              Search Menu
+            </button>
+          </form>
         </div>
 
         {Object.keys(productsByCategory).length === 0 && searchQuery && (
