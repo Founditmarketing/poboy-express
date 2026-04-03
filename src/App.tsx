@@ -95,7 +95,7 @@ const Header = () => {
               alt="Poboy Express Logo"
               className={`transition-all duration-500 object-contain max-w-none ${isScrolled
                   ? 'h-10 md:h-12 relative top-0 left-0'
-                  : 'absolute left-0 top-[4px] md:top-[12px] h-20 md:h-28 w-auto drop-shadow-md'
+                  : 'absolute left-0 top-[4px] md:top-[12px] h-16 md:h-24 w-auto drop-shadow-md'
                 }`}
             />
           </a>
@@ -280,7 +280,7 @@ const Hero = () => {
           transition={{
             x: { type: "tween", ease: "easeInOut", duration: 1.2 }
           }}
-          className="absolute inset-0 w-full h-full flex items-end pb-24 pt-32 px-4 sm:px-8 lg:px-12"
+          className="absolute inset-0 w-full h-full flex items-end pb-24 pt-44 md:pt-32 px-4 sm:px-8 lg:px-12"
         >
           {/* Background Image */}
           <div className="absolute inset-0 z-0 overflow-hidden">
