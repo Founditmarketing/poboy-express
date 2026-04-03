@@ -837,10 +837,10 @@ const QuickActionBanner = () => {
           <ShoppingBag size={24} className="text-poboy-yellow group-hover:text-poboy-black group-hover:scale-110 transition-all" />
           Order Online
         </a>
-        <a href="#catering" className="flex-1 group bg-black/20 hover:bg-poboy-yellow backdrop-blur-sm border border-black text-white hover:text-poboy-black font-display font-normal py-4 px-6 rounded-md transition-all duration-300 text-lg md:text-xl uppercase tracking-widest flex items-center justify-center gap-3 hover:-translate-y-1">
+        <Link to="/menu" className="flex-1 group bg-black/20 hover:bg-poboy-yellow backdrop-blur-sm border border-black text-white hover:text-poboy-black font-display font-normal py-4 px-6 rounded-md transition-all duration-300 text-lg md:text-xl uppercase tracking-widest flex items-center justify-center gap-3 hover:-translate-y-1">
           <Plus size={24} className="text-poboy-yellow group-hover:text-poboy-black group-hover:scale-110 transition-all" />
           Plan Your Order
-        </a>
+        </Link>
       </div>
     </div>
   );
