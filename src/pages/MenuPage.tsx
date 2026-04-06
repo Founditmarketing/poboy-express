@@ -5,15 +5,21 @@ import { MENU_CATALOG } from '../data/menuData';
 import { Category, Product } from '../types/Menu';
 import { ProductModal } from '../components/ProductModal';
 
-const getCategoryIcon = (category: string) => {
-  const lower = category.toLowerCase();
-  if (lower.includes('basket') || lower.includes('family')) return 'basket.png';
-  if (lower.includes('po-boy')) return 'sandwich.png';
-  if (lower.includes('burger') || lower.includes('kid')) return 'burger.png';
-  if (lower.includes('salad')) return 'salad.png';
-  if (lower.includes('fries')) return 'fries.png';
-  if (lower.includes('side')) return 'sides.png';
-  if (lower.includes('dessert')) return 'dessert.png';
+const getProductIcon = (product: Product) => {
+  const cat = product.category.toLowerCase();
+  const name = product.name.toLowerCase();
+  
+  if (name.includes('fries') || cat.includes('fries')) return 'fries.png';
+  if (name.includes('chips')) return 'chips.png';
+  if (cat.includes('tray') || name.includes('tray')) return 'trays.png';
+
+  if (cat.includes('basket') || cat.includes('family')) return 'basket.png';
+  if (cat.includes('po-boy')) return 'sandwich.png';
+  if (cat.includes('burger') || cat.includes('kid')) return 'burger.png';
+  if (cat.includes('salad')) return 'salad.png';
+  if (cat.includes('side')) return 'sides.png';
+  if (cat.includes('dessert')) return 'dessert.png';
+  
   return 'basket.png';
 };
 
@@ -34,7 +40,7 @@ const ProductCard = ({ product, onClick }: { product: Product, onClick: () => vo
     <div className="p-6 flex flex-col flex-1">
       <div className="flex justify-between items-start mb-3 gap-4">
         <h3 className="text-2xl font-display text-poboy-black group-hover:text-poboy-red transition-colors flex items-start gap-3 flex-1">
-          <img src={`/${getCategoryIcon(product.category)}`} alt="" className="w-7 h-7 object-contain shrink-0 mt-0.5" />
+          <img src={`/${getProductIcon(product)}`} alt="" className="w-7 h-7 object-contain shrink-0 mt-0.5" />
           <span>{product.name}</span>
         </h3>
         <span className="font-semibold text-lg shrink-0 text-right">

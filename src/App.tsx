@@ -4,7 +4,12 @@ import { motion, AnimatePresence, useScroll, useTransform } from 'motion/react';
 import { BagProvider, useBag } from './context/BagContext';
 import { BagDrawer } from './components/BagDrawer';
 import { MenuPage } from './pages/MenuPage';
+import { ContactPage } from './pages/ContactPage';
+import { EmploymentPage } from './pages/EmploymentPage';
+import { ReviewsPage } from './pages/ReviewsPage';
+import { LeaveReviewPage } from './pages/LeaveReviewPage';
 import { WelcomePopup } from './components/WelcomePopup';
+import { FacebookModal } from './components/FacebookModal';
 import {
   Facebook,
   Instagram,
@@ -28,6 +33,23 @@ import {
 } from 'lucide-react';
 
 // --- Components ---
+
+const ScrollToTop = () => {
+  const { pathname, hash } = useLocation();
+
+  useEffect(() => {
+    if (hash) {
+      const element = document.querySelector(hash);
+      if (element) {
+        setTimeout(() => element.scrollIntoView({ behavior: 'smooth' }), 100);
+        return;
+      }
+    }
+    window.scrollTo(0, 0);
+  }, [pathname, hash]);
+
+  return null;
+};
 
 const ParallaxCheckeredBackground = ({ opacity = 0.03 }: { opacity?: number }) => {
   const ref = useRef(null);
@@ -58,15 +80,22 @@ const NAV_ITEMS = [
   { name: 'Home', path: '/', isPage: true },
   { name: 'Menu', path: '/menu', isPage: true },
   { name: 'Delivery', path: 'https://order.toasttab.com/online/po-boy-express-alexandria-1305-windsor-pl', isExternal: true },
-  { name: 'Catering', path: '/#catering' },
-  { name: 'Reviews', path: '/#testimonials' },
-  { name: 'Employment', path: '/#employment' },
-  { name: 'Contact Us', path: '/#contact' }
+  { name: 'Catering', path: 'https://www.ezcater.com/brand/pvt/poboy-express', isExternal: true },
+  {
+    name: 'Reviews',
+    dropdown: [
+      { name: 'Read Reviews', path: '/reviews', isPage: true },
+      { name: 'Leave A Review', path: '/leave-review', isPage: true }
+    ]
+  },
+  { name: 'Employment', path: '/employment', isPage: true },
+  { name: 'Contact', path: '/contact', isPage: true }
 ];
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isFbModalOpen, setIsFbModalOpen] = useState(false);
   const location = useLocation();
 
   const isHomePage = location.pathname === '/';
@@ -94,8 +123,8 @@ const Header = () => {
               src="/poboyexpresslogo.png"
               alt="Poboy Express Logo"
               className={`transition-all duration-500 object-contain max-w-none ${isScrolled
-                  ? 'h-10 md:h-12 relative top-0 left-0'
-                  : 'absolute left-0 top-[4px] md:top-[12px] h-16 md:h-24 w-auto drop-shadow-md'
+                ? 'h-10 md:h-12 relative top-0 left-0'
+                : 'absolute left-0 top-[4px] md:top-[12px] h-16 md:h-24 w-auto drop-shadow-md'
                 }`}
             />
           </a>
@@ -105,8 +134,35 @@ const Header = () => {
         <nav className="hidden lg:flex items-center gap-10">
           {NAV_ITEMS.map((item) => {
             const className = `font-semibold uppercase tracking-widest text-xs lg:text-sm hover:text-poboy-yellow transition-colors ${shouldShowSolidBg ? 'text-poboy-black/70' : 'text-white/80 drop-shadow-sm'} whitespace-nowrap`;
+
+            if (item.dropdown) {
+              return (
+                <div key={item.name} className="relative group">
+                  <button className={`${className} flex items-center gap-1 cursor-pointer`}>
+                    {item.name}
+                    <svg className="w-4 h-4 transition-transform group-hover:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </button>
+                  <div className="absolute top-full left-0 mt-4 w-56 bg-white rounded-xl shadow-xl border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform origin-top translate-y-2 group-hover:translate-y-0 overflow-hidden z-50">
+                    <div className="py-2 flex flex-col">
+                      {item.dropdown.map(subItem => (
+                        <Link
+                          key={subItem.name}
+                          to={subItem.path!}
+                          className="px-5 py-3 text-sm font-bold text-gray-700 hover:text-poboy-red hover:bg-red-50 transition-colors uppercase tracking-wider block"
+                        >
+                          {subItem.name}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              );
+            }
+
             if (item.isPage) {
-              return <Link key={item.name} to={item.path} className={className}>{item.name}</Link>;
+              return <Link key={item.name} to={item.path!} className={className}>{item.name}</Link>;
             }
             if (item.isExternal) {
               return <a key={item.name} href={item.path} target="_blank" rel="noreferrer" className={className}>{item.name}</a>;
@@ -118,12 +174,9 @@ const Header = () => {
         {/* CTA & Socials */}
         <div className="hidden md:flex items-center gap-6">
           <div className="flex items-center gap-3 md:gap-4">
-            <a href="https://www.facebook.com/Poboyexpress2" target="_blank" rel="noreferrer" title="Alexandria Facebook" className={`hover:text-poboy-yellow transition-colors ${shouldShowSolidBg ? 'text-poboy-black' : 'text-white'}`}>
+            <button onClick={() => setIsFbModalOpen(true)} title="Facebook" className={`hover:text-poboy-yellow transition-colors ${shouldShowSolidBg ? 'text-poboy-black' : 'text-white'} cursor-pointer`}>
               <Facebook size={20} />
-            </a>
-            <a href="https://www.facebook.com/pinevillepoboys" target="_blank" rel="noreferrer" title="Pineville Facebook" className={`hover:text-poboy-yellow transition-colors ${shouldShowSolidBg ? 'text-poboy-black' : 'text-white'}`}>
-              <Facebook size={20} />
-            </a>
+            </button>
             <a href="https://www.instagram.com/poboy_express_cenla/" target="_blank" rel="noreferrer" title="Instagram" className={`hover:text-poboy-yellow transition-colors ${shouldShowSolidBg ? 'text-poboy-black' : 'text-white'}`}>
               <Instagram size={20} />
             </a>
@@ -157,10 +210,36 @@ const Header = () => {
             className="absolute top-full left-0 right-0 bg-white shadow-xl flex flex-col p-4 md:hidden"
           >
             {NAV_ITEMS.map((item) => {
-              const className = "py-3 border-b border-gray-100 font-medium text-poboy-black uppercase tracking-widest text-sm";
+              const className = "py-3 border-b border-gray-100 font-medium text-poboy-black uppercase tracking-widest text-sm flex w-full text-left";
+
+              if (item.dropdown) {
+                return (
+                  <div key={item.name} className="border-b border-gray-100">
+                    <div className="py-3 font-medium text-gray-400 uppercase tracking-widest text-sm flex items-center justify-between pointer-events-none">
+                      {item.name}
+                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </div>
+                    <div className="flex flex-col ml-4 border-l-2 border-gray-100 mb-2">
+                      {item.dropdown.map(subItem => (
+                        <Link
+                          key={subItem.name}
+                          to={subItem.path!}
+                          onClick={() => setMobileMenuOpen(false)}
+                          className="py-3 pl-4 font-medium text-poboy-black hover:text-poboy-red uppercase tracking-widest text-sm block"
+                        >
+                          {subItem.name}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                );
+              }
+
               if (item.isPage) {
                 return (
-                  <Link key={item.name} to={item.path} onClick={() => setMobileMenuOpen(false)} className={className}>
+                  <Link key={item.name} to={item.path!} onClick={() => setMobileMenuOpen(false)} className={className}>
                     {item.name}
                   </Link>
                 );
@@ -188,6 +267,7 @@ const Header = () => {
           </motion.div>
         )}
       </AnimatePresence>
+      <FacebookModal isOpen={isFbModalOpen} onClose={() => setIsFbModalOpen(false)} />
     </motion.header>
   );
 };
@@ -262,8 +342,8 @@ const Hero = () => {
   };
 
   return (
-    <motion.section 
-      id="home" 
+    <motion.section
+      id="home"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 1 }}
@@ -406,7 +486,7 @@ const FoodSpotlight = () => {
                   {item.price}
                 </p>
               </div>
-              
+
               {/* Mobile Absolute Button */}
               <Link to="/menu" className="md:hidden absolute bottom-[50%] translate-y-[50%] right-3 bg-poboy-yellow text-poboy-black p-2 rounded-full shadow-lg hover:bg-yellow-400 transition-colors">
                 <FileText size={16} strokeWidth={2.5} />
@@ -476,9 +556,9 @@ const About = () => {
             </p>
 
             <div>
-              <button className="bg-poboy-red hover:bg-red-700 text-white font-display font-normal px-6 py-3 rounded-full shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-0.5 tracking-widest uppercase">
-                Read Our History
-              </button>
+              <Link to="/employment" className="inline-block text-center bg-poboy-red hover:bg-red-700 text-white font-display font-normal px-6 py-3 rounded-full shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-0.5 tracking-widest uppercase">
+                Join Our Team
+              </Link>
             </div>
           </div>
         </div>
@@ -524,6 +604,7 @@ const Locations = () => {
 
 
 const Gallery = () => {
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const photos = [
     "/poboyexpressrestaurant.jpeg",
     "/poboyexpresspeople.jpg",
@@ -537,8 +618,22 @@ const Gallery = () => {
     "/poboyexpresspoyboysandwich2.jpeg",
   ];
 
+  const handleNext = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (selectedIndex !== null) {
+      setSelectedIndex((selectedIndex + 1) % photos.length);
+    }
+  };
+
+  const handlePrev = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (selectedIndex !== null) {
+      setSelectedIndex((selectedIndex - 1 + photos.length) % photos.length);
+    }
+  };
+
   return (
-    <section className="bg-black w-full">
+    <section className="bg-black w-full relative">
       <div className="w-full grid grid-cols-2 md:grid-cols-3 gap-1">
         {photos.map((photo, idx) => (
           <motion.div
@@ -547,8 +642,8 @@ const Gallery = () => {
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
             transition={{ delay: (idx % 3) * 0.1 }}
-            className={`relative overflow-hidden group ${idx === 0 || idx === 4 ? 'row-span-2' : ''
-              }`}
+            className={`relative overflow-hidden group cursor-pointer ${idx === 0 || idx === 4 ? 'row-span-2' : ''}`}
+            onClick={() => setSelectedIndex(idx)}
           >
             <img
               src={photo}
@@ -559,6 +654,53 @@ const Gallery = () => {
           </motion.div>
         ))}
       </div>
+
+      <AnimatePresence>
+        {selectedIndex !== null && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[200] flex items-center justify-center bg-black/95 backdrop-blur-md"
+            onClick={() => setSelectedIndex(null)}
+          >
+            <button
+              className="absolute top-6 right-6 text-white hover:text-poboy-yellow transition-colors bg-white/10 hover:bg-white/20 p-2 rounded-full z-10 cursor-pointer"
+              onClick={() => setSelectedIndex(null)}
+            >
+              <X size={32} />
+            </button>
+            <button
+              className="absolute left-4 md:left-10 text-white hover:text-poboy-yellow transition-colors bg-white/10 hover:bg-white/20 p-3 rounded-full cursor-pointer z-10 backdrop-blur-sm"
+              onClick={handlePrev}
+            >
+              <ChevronLeft size={36} />
+            </button>
+            <button
+              className="absolute right-4 md:right-10 text-white hover:text-poboy-yellow transition-colors bg-white/10 hover:bg-white/20 p-3 rounded-full cursor-pointer z-10 backdrop-blur-sm"
+              onClick={handleNext}
+            >
+              <ChevronRight size={36} />
+            </button>
+
+            <motion.img
+              key={selectedIndex}
+              src={photos[selectedIndex]}
+              alt={`Enlarged gallery view ${selectedIndex + 1}`}
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.9 }}
+              transition={{ duration: 0.3 }}
+              className="max-h-[90vh] max-w-[90vw] object-contain shadow-2xl rounded-sm"
+              onClick={(e) => e.stopPropagation()}
+            />
+
+            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 text-white/50 text-sm font-sans tracking-widest uppercase">
+              {selectedIndex + 1} / {photos.length}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 };
@@ -659,7 +801,10 @@ const Testimonials = () => {
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
           <div>
             <h2 className="text-3xl md:text-4xl font-display font-normal text-white mb-2">WHAT LOCALS SAY</h2>
-            <div className="w-16 h-1 bg-poboy-yellow"></div>
+            <div className="w-16 h-1 bg-poboy-yellow mb-3"></div>
+            <Link to="/reviews" className="text-white hover:text-poboy-yellow underline decoration-white/30 hover:decoration-poboy-yellow underline-offset-4 font-medium transition-colors tracking-wide">
+              Read All Reviews
+            </Link>
           </div>
           <div className="flex gap-3">
             <button
@@ -697,11 +842,6 @@ const Testimonials = () => {
                 <p className="text-gray-700 mb-6 text-sm md:text-base leading-relaxed">"{review.text}"</p>
               </div>
               <div className="flex items-center gap-4">
-                <img
-                  src={review.avatar}
-                  alt={review.name}
-                  className="w-12 h-12 rounded-full border-2 border-gray-100 object-cover"
-                />
                 <div>
                   <h4 className="font-display font-normal text-poboy-black text-lg leading-none mb-1">{review.name}</h4>
                   <p className="text-poboy-red text-xs font-bold tracking-wider uppercase">{review.role}</p>
@@ -716,6 +856,8 @@ const Testimonials = () => {
 };
 
 const Footer = () => {
+  const [isFbModalOpen, setIsFbModalOpen] = useState(false);
+
   return (
     <footer className="bg-poboy-black text-white pt-20 pb-10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -729,12 +871,9 @@ const Footer = () => {
               Proudly serving Central Louisiana and the local parishes with authentic Cajun flavor since 1999.
             </p>
             <div className="flex gap-4">
-              <a href="https://www.facebook.com/Poboyexpress2" target="_blank" rel="noreferrer" title="Alexandria Facebook" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-poboy-yellow hover:text-poboy-black transition-colors">
+              <button onClick={() => setIsFbModalOpen(true)} title="Facebook" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-poboy-yellow hover:text-poboy-black transition-colors cursor-pointer">
                 <Facebook size={20} />
-              </a>
-              <a href="https://www.facebook.com/pinevillepoboys" target="_blank" rel="noreferrer" title="Pineville Facebook" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-poboy-yellow hover:text-poboy-black transition-colors">
-                <Facebook size={20} />
-              </a>
+              </button>
               <a href="https://www.instagram.com/poboy_express_cenla/" target="_blank" rel="noreferrer" title="Instagram" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-poboy-yellow hover:text-poboy-black transition-colors">
                 <Instagram size={20} />
               </a>
@@ -789,11 +928,11 @@ const Footer = () => {
           <div>
             <h4 className="font-display font-normal text-lg mb-6 text-poboy-yellow">QUICK LINKS</h4>
             <ul className="space-y-3 text-sm text-gray-400">
-              <li><a href="#" className="hover:text-white transition-colors">Order Online</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Full Menu</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Catering Services</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Join Our Team</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Privacy Policy</a></li>
+              <li><a href="https://order.toasttab.com/online/po-boy-express-alexandria-1305-windsor-pl" target="_blank" rel="noreferrer" className="hover:text-white transition-colors">Order Online</a></li>
+              <li><Link to="/menu" className="hover:text-white transition-colors">Full Menu</Link></li>
+              <li><a href="https://www.ezcater.com/brand/pvt/poboy-express" target="_blank" rel="noreferrer" className="hover:text-white transition-colors">Catering Services</a></li>
+              <li><Link to="/employment" className="hover:text-white transition-colors">Join Our Team</Link></li>
+              <li><Link to="/contact" className="hover:text-white transition-colors">Contact Us</Link></li>
             </ul>
           </div>
         </div>
@@ -809,12 +948,13 @@ const Footer = () => {
         <div className="flex flex-col md:flex-row justify-between items-center pt-8 border-t border-white/10 text-sm text-gray-500">
           <p>&copy; {new Date().getFullYear()} Poboy Express. All rights reserved.</p>
           <div className="mt-4 md:mt-0">
-            <a href="#menu" className="flex items-center gap-2 hover:text-white transition-colors">
+            <Link to="/menu" className="flex items-center gap-2 hover:text-white transition-colors">
               <Utensils size={18} /> View Full Menu
-            </a>
+            </Link>
           </div>
         </div>
       </div>
+      <FacebookModal isOpen={isFbModalOpen} onClose={() => setIsFbModalOpen(false)} />
     </footer>
   );
 };
@@ -885,7 +1025,8 @@ export default function App() {
   return (
     <BagProvider>
       <BrowserRouter>
-        <div className="min-h-screen font-sans selection:bg-poboy-yellow selection:text-poboy-black relative overflow-hidden">
+        <ScrollToTop />
+        <div className="min-h-screen font-sans selection:bg-poboy-yellow selection:text-poboy-black relative">
           <Header />
           <FloatingOrderButton />
           <BagDrawer />
@@ -893,6 +1034,10 @@ export default function App() {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/menu" element={<MenuPage />} />
+            <Route path="/contact" element={<ContactPage />} />
+            <Route path="/employment" element={<EmploymentPage />} />
+            <Route path="/reviews" element={<ReviewsPage />} />
+            <Route path="/leave-review" element={<LeaveReviewPage />} />
           </Routes>
           <Footer />
         </div>
