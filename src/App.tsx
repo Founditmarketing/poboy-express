@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import { BrowserRouter, Routes, Route, Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence, useScroll, useTransform } from 'motion/react';
 import { BagProvider, useBag } from './context/BagContext';
@@ -108,6 +109,7 @@ const Header = () => {
   }, []);
 
   return (
+    <>
     <motion.header
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
@@ -191,84 +193,178 @@ const Header = () => {
           </a>
         </div>
 
+        {/* Mobile Social Icons */}
+        <div className="lg:hidden flex items-center gap-3 ml-auto mr-5">
+          <button
+            onClick={() => setIsFbModalOpen(true)}
+            title="Facebook"
+            className={`hover:text-poboy-yellow transition-colors ${shouldShowSolidBg ? 'text-poboy-black' : 'text-white'} cursor-pointer`}
+          >
+            <Facebook size={18} />
+          </button>
+          <a
+            href="https://www.instagram.com/poboy_express_cenla/"
+            target="_blank"
+            rel="noreferrer"
+            title="Instagram"
+            className={`hover:text-poboy-yellow transition-colors ${shouldShowSolidBg ? 'text-poboy-black' : 'text-white'}`}
+          >
+            <Instagram size={18} />
+          </a>
+        </div>
+
         {/* Mobile Menu Toggle */}
         <button
-          className="md:hidden text-poboy-black bg-white/80 p-2 rounded-md"
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          className={`lg:hidden flex flex-col justify-center items-center gap-[5px] w-10 h-10 rounded-lg shadow-sm transition-all border ${shouldShowSolidBg ? 'bg-poboy-red hover:bg-red-700 border-poboy-red' : 'bg-white/90 hover:bg-white border-gray-100'}`}
+          onClick={() => setMobileMenuOpen(true)}
+          aria-label="Open navigation menu"
         >
-          {mobileMenuOpen ? <X size={24} /> : <MenuIcon size={24} />}
+          <span className={`block h-[2px] w-5 transition-all duration-300 ${shouldShowSolidBg ? 'bg-poboy-yellow' : 'bg-poboy-red'}`} />
+          <span className={`block h-[2px] w-4 transition-all duration-300 ${shouldShowSolidBg ? 'bg-poboy-yellow' : 'bg-poboy-red'}`} />
+          <span className={`block h-[2px] w-5 transition-all duration-300 ${shouldShowSolidBg ? 'bg-poboy-yellow' : 'bg-poboy-red'}`} />
         </button>
       </div>
 
-      {/* Mobile Menu */}
-      <AnimatePresence>
-        {mobileMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="absolute top-full left-0 right-0 bg-white shadow-xl flex flex-col p-4 md:hidden"
-          >
-            {NAV_ITEMS.map((item) => {
-              const className = "py-3 border-b border-gray-100 font-medium text-poboy-black uppercase tracking-widest text-sm flex w-full text-left";
-
-              if (item.dropdown) {
-                return (
-                  <div key={item.name} className="border-b border-gray-100">
-                    <div className="py-3 font-medium text-gray-400 uppercase tracking-widest text-sm flex items-center justify-between pointer-events-none">
-                      {item.name}
-                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                      </svg>
-                    </div>
-                    <div className="flex flex-col ml-4 border-l-2 border-gray-100 mb-2">
-                      {item.dropdown.map(subItem => (
-                        <Link
-                          key={subItem.name}
-                          to={subItem.path!}
-                          onClick={() => setMobileMenuOpen(false)}
-                          className="py-3 pl-4 font-medium text-poboy-black hover:text-poboy-red uppercase tracking-widest text-sm block"
-                        >
-                          {subItem.name}
-                        </Link>
-                      ))}
-                    </div>
-                  </div>
-                );
-              }
-
-              if (item.isPage) {
-                return (
-                  <Link key={item.name} to={item.path!} onClick={() => setMobileMenuOpen(false)} className={className}>
-                    {item.name}
-                  </Link>
-                );
-              }
-              if (item.isExternal) {
-                return (
-                  <a key={item.name} href={item.path} target="_blank" rel="noreferrer" onClick={() => setMobileMenuOpen(false)} className={className}>
-                    {item.name}
-                  </a>
-                );
-              }
-              return (
-                <a key={item.name} href={item.path} onClick={() => setMobileMenuOpen(false)} className={className}>
-                  {item.name}
-                </a>
-              );
-            })}
-            <Link
-              to="/menu"
-              onClick={() => setMobileMenuOpen(false)}
-              className="bg-poboy-red text-white font-display font-normal px-6 py-4 rounded-lg mt-4 text-center"
-            >
-              ORDER ONLINE NOW
-            </Link>
-          </motion.div>
-        )}
-      </AnimatePresence>
       <FacebookModal isOpen={isFbModalOpen} onClose={() => setIsFbModalOpen(false)} />
     </motion.header>
+
+    {/* Mobile Drawer — portaled to body to escape motion.header transform stacking context */}
+    {createPortal(
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <>
+            {/* Backdrop */}
+            <motion.div
+              key="mobile-backdrop"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="fixed inset-0 z-[110] bg-black/60 backdrop-blur-sm"
+              onClick={() => setMobileMenuOpen(false)}
+            />
+
+            {/* Drawer Panel */}
+            <motion.div
+              key="mobile-drawer"
+              initial={{ x: '100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: '100%' }}
+              transition={{ type: 'tween', ease: [0.25, 0.46, 0.45, 0.94], duration: 0.38 }}
+              className="fixed top-0 right-0 h-full w-[82vw] max-w-[340px] z-[120] flex flex-col bg-[#0f0f0f] shadow-2xl"
+            >
+              {/* Drawer Header */}
+              <div className="flex items-center justify-between px-6 pt-6 pb-5 border-b border-white/10">
+                <img
+                  src="/poboyexpresslogo.png"
+                  alt="Poboy Express"
+                  className="h-10 object-contain"
+                />
+                <button
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="w-9 h-9 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors"
+                  aria-label="Close menu"
+                >
+                  <X size={18} />
+                </button>
+              </div>
+
+              {/* Nav Links */}
+              <nav className="flex-1 overflow-y-auto px-4 py-4 space-y-1">
+                {NAV_ITEMS.map((item, i) => {
+                  const baseClass = "group flex items-center justify-between w-full px-4 py-3.5 rounded-xl text-sm font-bold uppercase tracking-widest transition-all duration-200";
+
+                  if (item.dropdown) {
+                    return (
+                      <motion.div
+                        key={item.name}
+                        initial={{ opacity: 0, x: 20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: 0.1 + i * 0.05 }}
+                      >
+                        <div className="px-4 pt-3 pb-1 text-[10px] font-bold uppercase tracking-[0.2em] text-white/30">
+                          {item.name}
+                        </div>
+                        {item.dropdown.map((subItem) => (
+                          <Link
+                            key={subItem.name}
+                            to={subItem.path!}
+                            onClick={() => setMobileMenuOpen(false)}
+                            className={`${baseClass} text-white/70 hover:text-white hover:bg-white/10 pl-6`}
+                          >
+                            <span>{subItem.name}</span>
+                            <ChevronRight size={14} className="text-white/30 group-hover:text-poboy-yellow group-hover:translate-x-0.5 transition-all" />
+                          </Link>
+                        ))}
+                      </motion.div>
+                    );
+                  }
+
+                  const node = item.isPage ? (
+                    <Link
+                      to={item.path!}
+                      onClick={() => setMobileMenuOpen(false)}
+                      className={`${baseClass} text-white/80 hover:text-white hover:bg-white/10`}
+                    >
+                      <span>{item.name}</span>
+                      <ChevronRight size={14} className="text-white/30 group-hover:text-poboy-yellow group-hover:translate-x-0.5 transition-all" />
+                    </Link>
+                  ) : (
+                    <a
+                      href={item.path}
+                      target={item.isExternal ? '_blank' : undefined}
+                      rel={item.isExternal ? 'noreferrer' : undefined}
+                      onClick={() => setMobileMenuOpen(false)}
+                      className={`${baseClass} text-white/80 hover:text-white hover:bg-white/10`}
+                    >
+                      <span>{item.name}</span>
+                      <ChevronRight size={14} className="text-white/30 group-hover:text-poboy-yellow group-hover:translate-x-0.5 transition-all" />
+                    </a>
+                  );
+
+                  return (
+                    <motion.div
+                      key={item.name}
+                      initial={{ opacity: 0, x: 20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 0.1 + i * 0.05 }}
+                    >
+                      {node}
+                    </motion.div>
+                  );
+                })}
+              </nav>
+
+              {/* Drawer Footer */}
+              <div className="px-4 pb-8 pt-4 border-t border-white/10 space-y-3">
+                <a
+                  href="https://order.toasttab.com/online/po-boy-express-alexandria-1305-windsor-pl"
+                  target="_blank"
+                  rel="noreferrer"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="flex items-center justify-center gap-2 w-full bg-poboy-red hover:bg-red-600 text-white font-display font-normal py-4 rounded-xl text-sm uppercase tracking-widest transition-all shadow-lg"
+                >
+                  ORDER ONLINE NOW
+                </a>
+                <div className="flex items-center justify-center gap-4 pt-2">
+                  <button onClick={() => { setMobileMenuOpen(false); setIsFbModalOpen(true); }} className="text-white/40 hover:text-white transition-colors">
+                    <Facebook size={18} />
+                  </button>
+                  <a href="https://www.instagram.com/poboy_express_cenla/" target="_blank" rel="noreferrer" className="text-white/40 hover:text-white transition-colors">
+                    <Instagram size={18} />
+                  </a>
+                  <a href="tel:+13185550123" className="text-white/40 hover:text-white transition-colors">
+                    <Phone size={18} />
+                  </a>
+                </div>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>,
+      document.body
+    )}
+  </>
   );
 };
 
@@ -938,8 +1034,8 @@ const Footer = () => {
         </div>
 
         {/* Big Brand Watermark */}
-        <div className="flex justify-center py-12 border-t border-white/10 overflow-hidden">
-          <h2 className="text-[14vw] md:text-[9vw] font-display font-normal tracking-tighter text-transparent whitespace-nowrap opacity-20" style={{ WebkitTextStroke: '2px #ffce04', color: '#111111' }}>
+        <div className="flex justify-center py-12 border-t border-white/10 px-2">
+          <h2 className="text-[12vw] md:text-[9vw] font-display font-normal tracking-tighter text-transparent whitespace-nowrap opacity-20 w-full text-center" style={{ WebkitTextStroke: '2px #ffce04', color: '#111111' }}>
             POBOY EXPRESS
           </h2>
         </div>
@@ -963,24 +1059,25 @@ const QuickActionBanner = () => {
   return (
     <div className="bg-gradient-to-r from-red-900 via-poboy-red to-red-900 w-full py-5 px-4 sm:px-6 lg:px-8 relative z-20 shadow-2xl overflow-hidden">
       <ParallaxCheckeredBackground opacity={0.03} />
-      <div className="max-w-6xl mx-auto flex flex-col sm:flex-row justify-center gap-4 sm:gap-8 relative z-10">
-        <a href="tel:+13185550123" className="flex-1 group bg-black/20 hover:bg-poboy-yellow backdrop-blur-sm border border-black text-white hover:text-poboy-black font-display font-normal py-4 px-6 rounded-md transition-all duration-300 text-lg md:text-xl uppercase tracking-widest flex items-center justify-center gap-3 hover:-translate-y-1">
-          <Phone size={24} className="text-poboy-yellow group-hover:text-poboy-black group-hover:scale-110 transition-all" />
-          Call Now
+      <div className="max-w-6xl mx-auto relative z-10 grid grid-cols-2 sm:flex sm:flex-row justify-center gap-3 sm:gap-8">
+        <a href="tel:+13185550123" className="group bg-black/20 hover:bg-poboy-yellow backdrop-blur-sm border border-black text-white hover:text-poboy-black font-display font-normal py-3 px-3 sm:py-4 sm:px-6 rounded-md transition-all duration-300 text-sm sm:text-lg md:text-xl uppercase tracking-widest flex items-center justify-center gap-1.5 sm:gap-3 hover:-translate-y-1 sm:flex-1">
+          <Phone size={18} className="text-poboy-yellow group-hover:text-poboy-black group-hover:scale-110 transition-all sm:w-6 sm:h-6 shrink-0" />
+          <span className="truncate">Call Now</span>
         </a>
+        <Link to="/menu" className="order-2 sm:order-3 group bg-black/20 hover:bg-poboy-yellow backdrop-blur-sm border border-black text-white hover:text-poboy-black font-display font-normal py-3 px-3 sm:py-4 sm:px-6 rounded-md transition-all duration-300 text-sm sm:text-lg md:text-xl uppercase tracking-widest flex items-center justify-center gap-1.5 sm:gap-3 hover:-translate-y-1 sm:flex-1">
+          <Plus size={18} className="text-poboy-yellow group-hover:text-poboy-black group-hover:scale-110 transition-all sm:w-6 sm:h-6 shrink-0" />
+          <span className="sm:hidden truncate">Plan Order</span>
+          <span className="hidden sm:inline truncate">Plan Your Order</span>
+        </Link>
         <a
           href="https://order.toasttab.com/online/po-boy-express-alexandria-1305-windsor-pl"
           target="_blank"
           rel="noreferrer"
-          className="flex-1 group bg-poboy-red hover:bg-poboy-yellow text-white hover:text-poboy-black border border-black font-display font-normal py-4 px-6 rounded-md transition-all duration-300 text-lg md:text-xl uppercase tracking-widest flex items-center justify-center gap-3 hover:-translate-y-1"
+          className="order-3 sm:order-2 col-span-2 sm:flex-1 group bg-poboy-red hover:bg-poboy-yellow text-white hover:text-poboy-black border border-black font-display font-normal py-4 px-6 rounded-md transition-all duration-300 text-lg md:text-xl uppercase tracking-widest flex items-center justify-center gap-3 hover:-translate-y-1"
         >
           <ShoppingBag size={24} className="text-poboy-yellow group-hover:text-poboy-black group-hover:scale-110 transition-all" />
           Order Online
         </a>
-        <Link to="/menu" className="flex-1 group bg-black/20 hover:bg-poboy-yellow backdrop-blur-sm border border-black text-white hover:text-poboy-black font-display font-normal py-4 px-6 rounded-md transition-all duration-300 text-lg md:text-xl uppercase tracking-widest flex items-center justify-center gap-3 hover:-translate-y-1">
-          <Plus size={24} className="text-poboy-yellow group-hover:text-poboy-black group-hover:scale-110 transition-all" />
-          Plan Your Order
-        </Link>
       </div>
     </div>
   );
