@@ -369,7 +369,7 @@ const Header = () => {
 };
 
 const Hero = () => {
-  const [[page, direction], setPage] = useState([0, 0]);
+  const [current, setCurrent] = useState(0);
 
   const slides = [
     {
@@ -398,44 +398,15 @@ const Hero = () => {
     }
   ];
 
-  const paginate = (newDirection: number) => {
-    setPage([page + newDirection, newDirection]);
-  };
+  const prev = () => setCurrent(c => (c - 1 + slides.length) % slides.length);
+  const next = () => setCurrent(c => (c + 1) % slides.length);
+  const goTo = (idx: number) => setCurrent(idx);
 
+  // Auto-advance — functional updater, no stale closure
   useEffect(() => {
-    const timer = setInterval(() => {
-      paginate(1);
-    }, 6000);
+    const timer = setInterval(() => setCurrent(c => (c + 1) % slides.length), 6000);
     return () => clearInterval(timer);
-  }, [page]);
-
-  const imageIndex = ((page % slides.length) + slides.length) % slides.length;
-
-  const variants = {
-    enter: (direction: number) => ({
-      x: direction === 0 ? 0 : (direction > 0 ? '100%' : '-100%'),
-    }),
-    center: {
-      zIndex: 1,
-      x: 0,
-    },
-    exit: (direction: number) => ({
-      zIndex: 0,
-      x: direction < 0 ? '100%' : '-100%',
-    })
-  };
-
-  const textVariants = {
-    enter: (direction: number) => ({
-      opacity: direction === 0 ? 0 : 1,
-      y: direction === 0 ? 30 : 0
-    }),
-    center: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.8, delay: 0.6, ease: "easeOut" }
-    }
-  };
+  }, []);
 
   return (
     <motion.section
@@ -445,82 +416,76 @@ const Hero = () => {
       transition={{ duration: 1 }}
       className="relative h-[85vh] min-h-[600px] overflow-hidden bg-poboy-black"
     >
-      <AnimatePresence custom={direction}>
-        <motion.div
-          key={page}
-          custom={direction}
-          variants={variants}
-          initial="enter"
-          animate="center"
-          exit="exit"
-          transition={{
-            x: { type: "tween", ease: "easeInOut", duration: 1.2 }
-          }}
-          className="absolute inset-0 w-full h-full flex items-end pb-24 pt-[16rem] md:pt-32 px-4 sm:px-8 lg:px-12"
-        >
-          {/* Background Image */}
-          <div className="absolute inset-0 z-0 overflow-hidden">
-            <img
-              src={slides[imageIndex].img}
-              alt={`Hero slide ${imageIndex + 1}`}
-              className="w-full h-full object-cover opacity-80"
-            />
-            <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-transparent" />
+      {/* Continuous track — all slides side-by-side, no fading */}
+      <motion.div
+        className="absolute inset-0 flex"
+        style={{ width: `${slides.length * 100}%` }}
+        animate={{ x: `${-current * (100 / slides.length)}%` }}
+        transition={{ type: 'tween', ease: [0.25, 0.46, 0.45, 0.94], duration: 0.75 }}
+      >
+        {slides.map((slide, idx) => (
+          <div
+            key={idx}
+            className="relative h-full flex items-end pb-24 pt-[16rem] md:pt-32 px-4 sm:px-8 lg:px-12"
+            style={{ width: `${100 / slides.length}%` }}
+          >
+            {/* Background Image */}
+            <div className="absolute inset-0 z-0">
+              <img
+                src={slide.img}
+                alt={`Hero slide ${idx + 1}`}
+                className="w-full h-full object-cover opacity-80"
+              />
+              <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-transparent" />
+            </div>
+
+            {/* Slide Content */}
+            <div className="relative z-10 w-full h-full flex flex-col justify-end">
+              <div className="hidden md:flex items-center gap-4 mb-6">
+                <div className="w-12 h-[3px] bg-poboy-red" />
+                <span className="text-poboy-red font-bold tracking-[0.2em] uppercase text-sm drop-shadow-md">{slide.subtitle}</span>
+              </div>
+              <h1 className="text-[2.5rem] md:text-7xl font-display font-normal text-white leading-[1] md:leading-[0.9] mb-6 uppercase tracking-tight">
+                {slide.title} <br />
+                <span className="text-poboy-yellow">{slide.highlight}</span> {slide.suffix}
+              </h1>
+              <p className="text-xl text-gray-200 mb-10 max-w-xl font-medium">{slide.desc}</p>
+              <div className="flex flex-wrap gap-4">
+                <Link
+                  to="/menu"
+                  className="bg-poboy-yellow hover:bg-yellow-400 text-poboy-black font-display font-normal px-8 py-4 rounded-full shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-1 text-lg"
+                >
+                  EXPLORE MENU
+                </Link>
+                <a
+                  href="#locations"
+                  className="bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/30 text-white font-display font-normal px-8 py-4 rounded-full transition-all text-lg"
+                >
+                  FIND A LOCATION
+                </a>
+              </div>
+            </div>
           </div>
+        ))}
+      </motion.div>
 
-          {/* Slide Content */}
-          <motion.div variants={textVariants} className="relative z-10 w-full h-full flex flex-col justify-end">
-            {/* Desktop Subtitle */}
-            <div className="hidden md:flex items-center gap-4 mb-6">
-              <div className="w-12 h-[3px] bg-poboy-red"></div>
-              <span className="text-poboy-red font-bold tracking-[0.2em] uppercase text-sm drop-shadow-md">{slides[imageIndex].subtitle}</span>
-            </div>
-            <h1 className="text-[2.5rem] md:text-7xl font-display font-normal text-white leading-[1] md:leading-[0.9] mb-6 uppercase tracking-tight">
-              {slides[imageIndex].title} <br />
-              <span className="text-poboy-yellow">{slides[imageIndex].highlight}</span> {slides[imageIndex].suffix}
-            </h1>
-            <p className="text-xl text-gray-200 mb-10 max-w-xl font-medium">
-              {slides[imageIndex].desc}
-            </p>
-            <div className="flex flex-wrap gap-4">
-              <Link
-                to="/menu"
-                className="bg-poboy-yellow hover:bg-yellow-400 text-poboy-black font-display font-normal px-8 py-4 rounded-full shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-1 text-lg"
-              >
-                EXPLORE MENU
-              </Link>
-              <a
-                href="#locations"
-                className="bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/30 text-white font-display font-normal px-8 py-4 rounded-full transition-all text-lg"
-              >
-                FIND A LOCATION
-              </a>
-            </div>
-          </motion.div>
-        </motion.div>
-      </AnimatePresence>
-
-      {/* Slider Controls */}
-      <div className="absolute bottom-10 right-10 flex gap-4 z-20 hidden md:flex">
-        <button onClick={() => paginate(-1)} className="w-12 h-12 rounded-full border border-white/30 flex items-center justify-center text-white hover:bg-white/20 backdrop-blur-sm transition-colors cursor-pointer">
+      {/* Prev / Next Controls */}
+      <div className="absolute bottom-10 right-10 gap-4 z-20 hidden md:flex">
+        <button onClick={prev} className="w-12 h-12 rounded-full border border-white/30 flex items-center justify-center text-white hover:bg-white/20 backdrop-blur-sm transition-colors cursor-pointer">
           <ChevronLeft />
         </button>
-        <button onClick={() => paginate(1)} className="w-12 h-12 rounded-full border border-white/30 flex items-center justify-center text-white hover:bg-white/20 backdrop-blur-sm transition-colors cursor-pointer">
+        <button onClick={next} className="w-12 h-12 rounded-full border border-white/30 flex items-center justify-center text-white hover:bg-white/20 backdrop-blur-sm transition-colors cursor-pointer">
           <ChevronRight />
         </button>
       </div>
+
+      {/* Dot indicators */}
       <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex gap-2 z-20">
         {slides.map((_, idx) => (
           <button
             key={idx}
-            onClick={() => {
-              const newDirection = idx > imageIndex ? 1 : -1;
-              if (idx !== imageIndex) {
-                setPage([page + (idx - imageIndex), newDirection]);
-              }
-            }}
-            className={`h-[3px] transition-all duration-500 cursor-pointer ${idx === imageIndex ? 'w-24 bg-poboy-yellow' : 'w-16 bg-white/40 hover:bg-white/70'
-              }`}
+            onClick={() => goTo(idx)}
+            className={`h-[3px] transition-all duration-500 cursor-pointer ${idx === current ? 'w-24 bg-poboy-yellow' : 'w-16 bg-white/40 hover:bg-white/70'}`}
             aria-label={`Go to slide ${idx + 1}`}
           />
         ))}
