@@ -201,14 +201,19 @@ const Header = () => {
               <Instagram size={20} />
             </a>
           </div>
-          <a
-            href="https://order.toasttab.com/online/po-boy-express-alexandria-1305-windsor-pl"
-            target="_blank"
-            rel="noreferrer"
-            className="bg-poboy-red hover:bg-red-700 text-white font-display font-normal px-6 py-3 rounded-full shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-0.5"
-          >
-            ORDER ONLINE NOW
-          </a>
+          {/* Order Online Dropdown */}
+          <div className="relative group">
+            <button className="bg-poboy-red hover:bg-red-700 text-white font-display font-normal px-6 py-3 rounded-full shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-0.5 flex items-center gap-2 cursor-pointer">
+              ORDER ONLINE NOW
+              <svg className="w-4 h-4 transition-transform group-hover:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
+            </button>
+            <div className="absolute top-full right-0 mt-3 w-56 bg-white rounded-xl shadow-xl border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform origin-top translate-y-2 group-hover:translate-y-0 overflow-hidden z-50">
+              <div className="py-2 flex flex-col">
+                <a href="https://order.toasttab.com/online/po-boy-express-alexandria-1305-windsor-pl" target="_blank" rel="noreferrer" className="px-5 py-3 text-sm font-bold text-gray-700 hover:text-poboy-red hover:bg-red-50 transition-colors uppercase tracking-wider block">📍 Alexandria</a>
+                <a href="https://order.toasttab.com/online/po-boy-express-pineville-1323-military-hwy" target="_blank" rel="noreferrer" className="px-5 py-3 text-sm font-bold text-gray-700 hover:text-poboy-red hover:bg-red-50 transition-colors uppercase tracking-wider block">📍 Pineville</a>
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* Mobile Social Icons */}
@@ -369,15 +374,27 @@ const Header = () => {
 
               {/* Drawer Footer */}
               <div className="px-4 pb-8 pt-4 border-t border-white/10 space-y-3">
-                <a
-                  href="https://order.toasttab.com/online/po-boy-express-alexandria-1305-windsor-pl"
-                  target="_blank"
-                  rel="noreferrer"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="flex items-center justify-center gap-2 w-full bg-poboy-red hover:bg-red-600 text-white font-display font-normal py-4 rounded-xl text-sm uppercase tracking-widest transition-all shadow-lg"
-                >
-                  ORDER ONLINE NOW
-                </a>
+                <div className="flex flex-col gap-2">
+                  <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/40 text-center">Order Online — Choose Location</p>
+                  <a
+                    href="https://order.toasttab.com/online/po-boy-express-alexandria-1305-windsor-pl"
+                    target="_blank"
+                    rel="noreferrer"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="flex items-center justify-center gap-2 w-full bg-poboy-red hover:bg-red-600 text-white font-display font-normal py-3 rounded-xl text-sm uppercase tracking-widest transition-all shadow-lg"
+                  >
+                    📍 Alexandria
+                  </a>
+                  <a
+                    href="https://order.toasttab.com/online/po-boy-express-pineville-1323-military-hwy"
+                    target="_blank"
+                    rel="noreferrer"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="flex items-center justify-center gap-2 w-full bg-poboy-red hover:bg-red-600 text-white font-display font-normal py-3 rounded-xl text-sm uppercase tracking-widest transition-all shadow-lg"
+                  >
+                    📍 Pineville
+                  </a>
+                </div>
                 <div className="flex items-center justify-center gap-4 pt-2">
                   <button onClick={() => { setMobileMenuOpen(false); setIsFbModalOpen(true); }} className="text-white/40 hover:text-white transition-colors">
                     <Facebook size={18} />
@@ -1021,7 +1038,8 @@ const Footer = () => {
           <div>
             <h4 className="font-display font-normal text-lg mb-6 text-poboy-yellow">QUICK LINKS</h4>
             <ul className="space-y-3 text-sm text-gray-400">
-              <li><a href="https://order.toasttab.com/online/po-boy-express-alexandria-1305-windsor-pl" target="_blank" rel="noreferrer" className="hover:text-white transition-colors">Order Online</a></li>
+              <li><a href="https://order.toasttab.com/online/po-boy-express-alexandria-1305-windsor-pl" target="_blank" rel="noreferrer" className="hover:text-white transition-colors">Order Online — Alexandria</a></li>
+              <li><a href="https://order.toasttab.com/online/po-boy-express-pineville-1323-military-hwy" target="_blank" rel="noreferrer" className="hover:text-white transition-colors">Order Online — Pineville</a></li>
               <li><Link to="/menu" className="hover:text-white transition-colors">Full Menu</Link></li>
               <li><a href="https://www.ezcater.com/brand/pvt/poboy-express" target="_blank" rel="noreferrer" className="hover:text-white transition-colors">Catering Services</a></li>
               <li><Link to="/employment" className="hover:text-white transition-colors">Join Our Team</Link></li>
@@ -1066,15 +1084,20 @@ const QuickActionBanner = () => {
           <span className="sm:hidden truncate">Plan Order</span>
           <span className="hidden sm:inline truncate">Plan Your Order</span>
         </Link>
-        <a
-          href="https://order.toasttab.com/online/po-boy-express-alexandria-1305-windsor-pl"
-          target="_blank"
-          rel="noreferrer"
-          className="order-3 sm:order-2 col-span-2 sm:flex-1 group bg-poboy-red hover:bg-poboy-yellow text-white hover:text-poboy-black border border-black font-display font-normal py-4 px-6 rounded-md transition-all duration-300 text-lg md:text-xl uppercase tracking-widest flex items-center justify-center gap-3 hover:-translate-y-1"
-        >
-          <ShoppingBag size={24} className="text-poboy-yellow group-hover:text-poboy-black group-hover:scale-110 transition-all" />
-          Order Online
-        </a>
+        {/* Order Online Dropdown — Banner */}
+        <div className="relative group order-3 sm:order-2 col-span-2 sm:flex-1">
+          <button className="w-full bg-poboy-red hover:bg-poboy-yellow text-white hover:text-poboy-black border border-black font-display font-normal py-4 px-6 rounded-md transition-all duration-300 text-lg md:text-xl uppercase tracking-widest flex items-center justify-center gap-3 hover:-translate-y-1 cursor-pointer">
+            <ShoppingBag size={24} className="text-poboy-yellow group-hover:text-poboy-black group-hover:scale-110 transition-all" />
+            Order Online
+            <svg className="w-5 h-5 transition-transform group-hover:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
+          </button>
+          <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 w-56 bg-white rounded-xl shadow-xl border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform origin-bottom translate-y-2 group-hover:translate-y-0 overflow-hidden z-50">
+            <div className="py-2 flex flex-col">
+              <a href="https://order.toasttab.com/online/po-boy-express-alexandria-1305-windsor-pl" target="_blank" rel="noreferrer" className="px-5 py-3 text-sm font-bold text-gray-700 hover:text-poboy-red hover:bg-red-50 transition-colors uppercase tracking-wider block">📍 Alexandria</a>
+              <a href="https://order.toasttab.com/online/po-boy-express-pineville-1323-military-hwy" target="_blank" rel="noreferrer" className="px-5 py-3 text-sm font-bold text-gray-700 hover:text-poboy-red hover:bg-red-50 transition-colors uppercase tracking-wider block">📍 Pineville</a>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
