@@ -80,7 +80,13 @@ const ParallaxCheckeredBackground = ({ opacity = 0.03 }: { opacity?: number }) =
 const NAV_ITEMS = [
   { name: 'Home', path: '/', isPage: true },
   { name: 'Menu', path: '/menu', isPage: true },
-  { name: 'Delivery', path: 'https://order.toasttab.com/online/po-boy-express-alexandria-1305-windsor-pl', isExternal: true },
+  {
+    name: 'Delivery',
+    dropdown: [
+      { name: 'Alexandria', path: 'https://order.toasttab.com/online/po-boy-express-alexandria-1305-windsor-pl', isExternal: true },
+      { name: 'Pineville', path: 'https://order.toasttab.com/online/po-boy-express-pineville-1323-military-hwy', isExternal: true }
+    ]
+  },
   { name: 'Catering', path: 'https://www.ezcater.com/brand/pvt/poboy-express', isExternal: true },
   {
     name: 'Reviews',
@@ -149,13 +155,25 @@ const Header = () => {
                   <div className="absolute top-full left-0 mt-4 w-56 bg-white rounded-xl shadow-xl border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform origin-top translate-y-2 group-hover:translate-y-0 overflow-hidden z-50">
                     <div className="py-2 flex flex-col">
                       {item.dropdown.map(subItem => (
-                        <Link
-                          key={subItem.name}
-                          to={subItem.path!}
-                          className="px-5 py-3 text-sm font-bold text-gray-700 hover:text-poboy-red hover:bg-red-50 transition-colors uppercase tracking-wider block"
-                        >
-                          {subItem.name}
-                        </Link>
+                        subItem.isExternal ? (
+                          <a
+                            key={subItem.name}
+                            href={subItem.path!}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="px-5 py-3 text-sm font-bold text-gray-700 hover:text-poboy-red hover:bg-red-50 transition-colors uppercase tracking-wider block"
+                          >
+                            {subItem.name}
+                          </a>
+                        ) : (
+                          <Link
+                            key={subItem.name}
+                            to={subItem.path!}
+                            className="px-5 py-3 text-sm font-bold text-gray-700 hover:text-poboy-red hover:bg-red-50 transition-colors uppercase tracking-wider block"
+                          >
+                            {subItem.name}
+                          </Link>
+                        )
                       ))}
                     </div>
                   </div>
@@ -286,15 +304,29 @@ const Header = () => {
                           {item.name}
                         </div>
                         {item.dropdown.map((subItem) => (
-                          <Link
-                            key={subItem.name}
-                            to={subItem.path!}
-                            onClick={() => setMobileMenuOpen(false)}
-                            className={`${baseClass} text-white/70 hover:text-white hover:bg-white/10 pl-6`}
-                          >
-                            <span>{subItem.name}</span>
-                            <ChevronRight size={14} className="text-white/30 group-hover:text-poboy-yellow group-hover:translate-x-0.5 transition-all" />
-                          </Link>
+                          subItem.isExternal ? (
+                            <a
+                              key={subItem.name}
+                              href={subItem.path!}
+                              target="_blank"
+                              rel="noreferrer"
+                              onClick={() => setMobileMenuOpen(false)}
+                              className={`${baseClass} text-white/70 hover:text-white hover:bg-white/10 pl-6`}
+                            >
+                              <span>{subItem.name}</span>
+                              <ChevronRight size={14} className="text-white/30 group-hover:text-poboy-yellow group-hover:translate-x-0.5 transition-all" />
+                            </a>
+                          ) : (
+                            <Link
+                              key={subItem.name}
+                              to={subItem.path!}
+                              onClick={() => setMobileMenuOpen(false)}
+                              className={`${baseClass} text-white/70 hover:text-white hover:bg-white/10 pl-6`}
+                            >
+                              <span>{subItem.name}</span>
+                              <ChevronRight size={14} className="text-white/30 group-hover:text-poboy-yellow group-hover:translate-x-0.5 transition-all" />
+                            </Link>
+                          )
                         ))}
                       </motion.div>
                     );
