@@ -57,8 +57,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     });
 
     if (error) {
-      console.error('Resend error:', error);
-      return res.status(500).json({ error: 'Failed to send email. Please try again.' });
+      console.error('Resend error:', JSON.stringify(error));
+      return res.status(500).json({ error: 'Failed to send email.', detail: error });
     }
 
     return res.status(200).json({ success: true, id: data?.id });
