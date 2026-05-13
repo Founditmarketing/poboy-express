@@ -997,7 +997,7 @@ const Footer = () => {
               <h5 className="font-bold mb-2">Alexandria</h5>
               <p className="text-gray-400 text-sm flex items-start gap-2 mb-1">
                 <MapPin size={16} className="mt-0.5 shrink-0" />
-                123 MacArthur Drive<br />Alexandria, LA 71301
+                1305 Windsor Pl<br />Alexandria, LA 71303
               </p>
               <p className="text-gray-400 text-sm flex items-center gap-2">
                 <Phone size={16} /> (318) 555-0123
@@ -1007,7 +1007,7 @@ const Footer = () => {
               <h5 className="font-bold mb-2">Pineville</h5>
               <p className="text-gray-400 text-sm flex items-start gap-2 mb-1">
                 <MapPin size={16} className="mt-0.5 shrink-0" />
-                456 Military Hwy<br />Pineville, LA 71360
+                1323 Military Hwy<br />Pineville, LA 71360
               </p>
               <p className="text-gray-400 text-sm flex items-center gap-2">
                 <Phone size={16} /> (318) 555-0456
@@ -1020,12 +1020,8 @@ const Footer = () => {
             <h4 className="font-display font-normal text-lg mb-6 text-poboy-yellow">HOURS</h4>
             <ul className="space-y-3 text-sm text-gray-400">
               <li className="flex justify-between border-b border-white/10 pb-2">
-                <span>Monday - Thursday</span>
-                <span className="text-white">10:30 AM - 8:00 PM</span>
-              </li>
-              <li className="flex justify-between border-b border-white/10 pb-2">
-                <span>Friday - Saturday</span>
-                <span className="text-white">10:30 AM - 9:00 PM</span>
+                <span>Monday - Saturday</span>
+                <span className="text-white">10:00 AM - 8:00 PM</span>
               </li>
               <li className="flex justify-between border-b border-white/10 pb-2">
                 <span>Sunday</span>

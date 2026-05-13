@@ -111,7 +111,7 @@ export const ContactPage = () => {
                   </div>
                   <div>
                     <h4 className="font-bold text-gray-900 mb-0.5">Address</h4>
-                    <p className="text-gray-600 leading-relaxed text-sm">123 MacArthur Drive<br/>Alexandria, LA 71301</p>
+                    <p className="text-gray-600 leading-relaxed text-sm">1305 Windsor Pl<br/>Alexandria, LA 71303</p>
                   </div>
                 </div>
                 
@@ -143,7 +143,7 @@ export const ContactPage = () => {
                   </div>
                   <div>
                     <h4 className="font-bold text-gray-900 mb-0.5">Address</h4>
-                    <p className="text-gray-600 leading-relaxed text-sm">456 Military Hwy<br/>Pineville, LA 71360</p>
+                    <p className="text-gray-600 leading-relaxed text-sm">1323 Military Hwy<br/>Pineville, LA 71360</p>
                   </div>
                 </div>
                 
@@ -170,12 +170,8 @@ export const ContactPage = () => {
               </h2>
               <ul className="space-y-3 font-medium">
                 <li className="flex justify-between items-center border-b border-white/10 pb-3">
-                  <span className="text-gray-300">Mon - Thurs</span>
-                  <span>10:30 AM - 8:00 PM</span>
-                </li>
-                <li className="flex justify-between items-center border-b border-white/10 pb-3">
-                  <span className="text-gray-300">Fri - Sat</span>
-                  <span>10:30 AM - 9:00 PM</span>
+                  <span className="text-gray-300">Mon - Sat</span>
+                  <span>10:00 AM - 8:00 PM</span>
                 </li>
                 <li className="flex justify-between items-center pt-1">
                   <span className="text-gray-300">Sunday</span>

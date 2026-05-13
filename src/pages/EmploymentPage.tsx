@@ -144,11 +144,11 @@ export const EmploymentPage = () => {
                <div className="space-y-4 relative z-10">
                 <div className="bg-white/10 p-4 rounded-xl border border-white/5">
                   <h4 className="font-bold text-white mb-0.5">Alexandria</h4>
-                  <p className="text-gray-300 text-sm">123 MacArthur Drive</p>
+                  <p className="text-gray-300 text-sm">1305 Windsor Pl</p>
                 </div>
                 <div className="bg-white/10 p-4 rounded-xl border border-white/5">
                   <h4 className="font-bold text-white mb-0.5">Pineville</h4>
-                  <p className="text-gray-300 text-sm">456 Military Hwy</p>
+                  <p className="text-gray-300 text-sm">1323 Military Hwy</p>
                 </div>
               </div>
             </div>

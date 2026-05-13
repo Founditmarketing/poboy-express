@@ -67,8 +67,8 @@ export const LeaveReviewPage = () => {
               <MapPin size={48} className="text-poboy-red group-hover:text-poboy-black transition-colors mb-2" />
               <h2 className="text-4xl md:text-5xl uppercase tracking-tighter">Alexandria</h2>
               <p className="text-gray-500 group-hover:text-gray-800 font-sans font-medium text-lg leading-relaxed mt-2 mb-4 transition-colors">
-                123 MacArthur Drive<br />
-                Alexandria, LA 71301
+                1305 Windsor Pl<br />
+                Alexandria, LA 71303
               </p>
               <div className="flex items-center gap-2 text-sm font-sans tracking-widest text-white bg-poboy-red group-hover:bg-poboy-black px-6 py-3 rounded-full transition-colors uppercase font-bold mt-auto shadow-md">
                 Write Review <ExternalLink size={16} />
@@ -92,7 +92,7 @@ export const LeaveReviewPage = () => {
               <MapPin size={48} className="text-poboy-red group-hover:text-poboy-black transition-colors mb-2" />
               <h2 className="text-4xl md:text-5xl uppercase tracking-tighter">Pineville</h2>
               <p className="text-gray-500 group-hover:text-gray-800 font-sans font-medium text-lg leading-relaxed mt-2 mb-4 transition-colors">
-                456 Military Hwy<br />
+                1323 Military Hwy<br />
                 Pineville, LA 71360
               </p>
               <div className="flex items-center gap-2 text-sm font-sans tracking-widest text-white bg-poboy-red group-hover:bg-poboy-black px-6 py-3 rounded-full transition-colors uppercase font-bold mt-auto shadow-md">
