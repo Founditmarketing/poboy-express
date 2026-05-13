@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+# Disallow server-side API routes
+Disallow: /api/
+
+# Sitemap location
+Sitemap: https://poboyexpress.com/sitemap.xml
