@@ -12,6 +12,7 @@ export const ContactPage = () => {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [submitError, setSubmitError] = useState('');
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -24,17 +25,34 @@ export const ContactPage = () => {
     });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    // Simulate network request
-    setTimeout(() => {
-      setIsSubmitting(false);
+    setSubmitError('');
+
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.error || 'Something went wrong. Please try again.');
+      }
+
       setIsSubmitted(true);
       setFormData({ name: '', email: '', phone: '', message: '' });
-      setTimeout(() => setIsSubmitted(false), 5000);
-    }, 1500);
+      setTimeout(() => setIsSubmitted(false), 6000);
+    } catch (err: any) {
+      setSubmitError(err.message || 'Failed to send. Please try again or call us directly.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
+
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col font-sans mb-0">
@@ -273,15 +291,32 @@ export const ContactPage = () => {
                     </div>
                   </div>
 
+                  {submitError && (
+                    <div className="bg-red-50 border border-red-200 text-red-700 rounded-xl px-5 py-4 text-sm font-medium flex items-start gap-3">
+                      <span className="mt-0.5 shrink-0">⚠️</span>
+                      <span>{submitError}</span>
+                    </div>
+                  )}
+
                   <button
                     type="submit"
                     disabled={isSubmitting}
                     className="w-full bg-poboy-red hover:bg-red-700 text-white font-display font-medium text-lg px-8 py-4 rounded-xl shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all flex items-center justify-center gap-3 uppercase tracking-widest mt-2 disabled:opacity-70 disabled:cursor-not-allowed disabled:transform-none"
                   >
-                    {isSubmitting ? 'Sending...' : 'Send Message'}
-                    {!isSubmitting && <Send size={20} />}
+                    {isSubmitting ? (
+                      <>
+                        <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+                        </svg>
+                        Sending...
+                      </>
+                    ) : (
+                      <>Send Message <Send size={20} /></>
+                    )}
                   </button>
                 </form>
+
               )}
             </div>
           </motion.div>
