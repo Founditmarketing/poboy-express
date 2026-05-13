@@ -5,4 +5,4 @@ Allow: /
 Disallow: /api/
 
 # Sitemap location
-Sitemap: https://poboyexpress.com/sitemap.xml
+Sitemap: https://po-boyexpress.com/sitemap.xml

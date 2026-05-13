@@ -3,7 +3,7 @@
 
   <!-- Home -->
   <url>
-    <loc>https://poboyexpress.com/</loc>
+    <loc>https://po-boyexpress.com/</loc>
     <lastmod>2026-05-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
@@ -11,7 +11,7 @@
 
   <!-- Menu -->
   <url>
-    <loc>https://poboyexpress.com/menu</loc>
+    <loc>https://po-boyexpress.com/menu</loc>
     <lastmod>2026-05-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
@@ -19,7 +19,7 @@
 
   <!-- Contact -->
   <url>
-    <loc>https://poboyexpress.com/contact</loc>
+    <loc>https://po-boyexpress.com/contact</loc>
     <lastmod>2026-05-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -27,7 +27,7 @@
 
   <!-- Reviews -->
   <url>
-    <loc>https://poboyexpress.com/reviews</loc>
+    <loc>https://po-boyexpress.com/reviews</loc>
     <lastmod>2026-05-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
@@ -35,7 +35,7 @@
 
   <!-- Leave a Review -->
   <url>
-    <loc>https://poboyexpress.com/leave-review</loc>
+    <loc>https://po-boyexpress.com/leave-review</loc>
     <lastmod>2026-05-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -43,7 +43,7 @@
 
   <!-- Employment -->
   <url>
-    <loc>https://poboyexpress.com/employment</loc>
+    <loc>https://po-boyexpress.com/employment</loc>
     <lastmod>2026-05-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
