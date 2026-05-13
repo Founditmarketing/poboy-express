@@ -18,8 +18,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   try {
     const { data, error } = await resend.emails.send({
-      // TODO: Swap to hello@poboyexpress.com once verified at resend.com/domains
-      from: "Po'Boy Express <onboarding@resend.dev>",
+      from: "Po'Boy Express <hello@po-boyexpress.com>",
       to: ['jimalex16@yahoo.com'],
       replyTo: email,
       subject: `New Contact Form Message from ${name}`,
