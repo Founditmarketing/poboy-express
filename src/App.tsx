@@ -11,6 +11,7 @@ import { ReviewsPage } from './pages/ReviewsPage';
 import { LeaveReviewPage } from './pages/LeaveReviewPage';
 import { WelcomePopup } from './components/WelcomePopup';
 import { FacebookModal } from './components/FacebookModal';
+import { Analytics } from '@vercel/analytics/react';
 import {
   Facebook,
   Instagram,
@@ -1154,6 +1155,7 @@ export default function App() {
           </Routes>
           <Footer />
         </div>
+        <Analytics />
       </BrowserRouter>
     </BagProvider>
   );
