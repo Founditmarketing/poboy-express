@@ -31,10 +31,15 @@ export const ContactPage = () => {
     setSubmitError('');
 
     try {
-      const res = await fetch('/api/contact', {
+      const res = await fetch('https://www.founditos.com/api/contact-form/fd53ee02-455c-4f46-bfea-8b8c1016c913', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          message: formData.message,
+        }),
       });
 
       const data = await res.json();
