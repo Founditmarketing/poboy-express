@@ -403,7 +403,7 @@ const Header = () => {
                   <a href="https://www.instagram.com/poboy_express_cenla/" target="_blank" rel="noreferrer" className="text-white/40 hover:text-white transition-colors">
                     <Instagram size={18} />
                   </a>
-                  <a href="tel:+13185550123" className="text-white/40 hover:text-white transition-colors">
+                  <a href="tel:+13187046424" className="text-white/40 hover:text-white transition-colors">
                     <Phone size={18} />
                   </a>
                 </div>
@@ -693,14 +693,14 @@ const Locations = () => {
 
         <div className="flex flex-col sm:flex-row justify-center gap-6">
           <a
-            href="tel:+13185550123"
+            href="tel:+13187046424"
             className="group relative overflow-hidden bg-white hover:bg-poboy-yellow border-4 border-white hover:border-poboy-yellow text-poboy-black font-display font-normal text-xl md:text-2xl px-10 py-3 sm:py-6 rounded-xl transition-all shadow-xl hover:shadow-2xl w-full sm:w-1/2 flex flex-col items-center justify-center gap-2 transform hover:-translate-y-1"
           >
             <MapPin size={32} className="text-poboy-red group-hover:text-poboy-black transition-colors mb-1" />
             <span>ALEXANDRIA, LA</span>
           </a>
           <a
-            href="tel:+13185550124"
+            href="tel:+13184420818"
             className="group relative overflow-hidden bg-white hover:bg-poboy-yellow border-4 border-white hover:border-poboy-yellow text-poboy-black font-display font-normal text-xl md:text-2xl px-10 py-3 sm:py-6 rounded-xl transition-all shadow-xl hover:shadow-2xl w-full sm:w-1/2 flex flex-col items-center justify-center gap-2 transform hover:-translate-y-1"
           >
             <MapPin size={32} className="text-poboy-red group-hover:text-poboy-black transition-colors mb-1" />
@@ -1001,7 +1001,7 @@ const Footer = () => {
                 1305 Windsor Pl<br />Alexandria, LA 71303
               </p>
               <p className="text-gray-400 text-sm flex items-center gap-2">
-                <Phone size={16} /> (318) 555-0123
+                <Phone size={16} /> (318) 704-6424
               </p>
             </div>
             <div>
@@ -1011,7 +1011,7 @@ const Footer = () => {
                 1323 Military Hwy<br />Pineville, LA 71360
               </p>
               <p className="text-gray-400 text-sm flex items-center gap-2">
-                <Phone size={16} /> (318) 555-0456
+                <Phone size={16} /> (318) 442-0818
               </p>
             </div>
           </div>
@@ -1072,7 +1072,7 @@ const QuickActionBanner = () => {
     <div className="bg-gradient-to-r from-red-900 via-poboy-red to-red-900 w-full py-5 px-4 sm:px-6 lg:px-8 relative z-20 shadow-2xl overflow-hidden">
       <ParallaxCheckeredBackground opacity={0.03} />
       <div className="max-w-6xl mx-auto relative z-10 grid grid-cols-2 sm:flex sm:flex-row justify-center gap-3 sm:gap-8">
-        <a href="tel:+13185550123" className="group bg-black/20 hover:bg-poboy-yellow backdrop-blur-sm border border-black text-white hover:text-poboy-black font-display font-normal py-3 px-3 sm:py-4 sm:px-6 rounded-md transition-all duration-300 text-sm sm:text-lg md:text-xl uppercase tracking-widest flex items-center justify-center gap-1.5 sm:gap-3 hover:-translate-y-1 sm:flex-1">
+        <a href="tel:+13187046424" className="group bg-black/20 hover:bg-poboy-yellow backdrop-blur-sm border border-black text-white hover:text-poboy-black font-display font-normal py-3 px-3 sm:py-4 sm:px-6 rounded-md transition-all duration-300 text-sm sm:text-lg md:text-xl uppercase tracking-widest flex items-center justify-center gap-1.5 sm:gap-3 hover:-translate-y-1 sm:flex-1">
           <Phone size={18} className="text-poboy-yellow group-hover:text-poboy-black group-hover:scale-110 transition-all sm:w-6 sm:h-6 shrink-0" />
           <span className="truncate">Call Now</span>
         </a>

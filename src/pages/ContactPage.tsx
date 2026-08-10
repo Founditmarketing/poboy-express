@@ -126,7 +126,7 @@ export const ContactPage = () => {
                   </div>
                   <div>
                     <h4 className="font-bold text-gray-900 mb-0.5">Call to Order</h4>
-                    <a href="tel:+13185550123" className="text-poboy-red hover:underline font-bold text-lg">(318) 555-0123</a>
+                    <a href="tel:+13187046424" className="text-poboy-red hover:underline font-bold text-lg">(318) 704-6424</a>
                   </div>
                 </div>
               </div>
@@ -158,7 +158,7 @@ export const ContactPage = () => {
                   </div>
                   <div>
                     <h4 className="font-bold text-gray-900 mb-0.5">Call to Order</h4>
-                    <a href="tel:+13185550456" className="text-poboy-black hover:text-poboy-yellow transition-colors font-bold text-lg hover:underline">(318) 555-0456</a>
+                    <a href="tel:+13184420818" className="text-poboy-black hover:text-poboy-yellow transition-colors font-bold text-lg hover:underline">(318) 442-0818</a>
                   </div>
                 </div>
               </div>
