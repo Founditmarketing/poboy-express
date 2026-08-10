@@ -59,11 +59,11 @@ export const WelcomePopup = () => {
                   <p className="text-red-100 mb-6 font-medium text-sm drop-shadow-sm">Tap your nearest location below to dial our kitchen directly.</p>
 
                   <div className="flex flex-col gap-3 w-full justify-center">
-                    <a href="tel:+13185550123" onClick={onClose} className="w-full bg-white hover:bg-poboy-yellow text-poboy-black font-bold uppercase tracking-widest h-16 rounded-xl flex items-center justify-center gap-2 transition-all shadow-lg text-sm group">
+                    <a href="tel:+13187046424" onClick={onClose} className="w-full bg-white hover:bg-poboy-yellow text-poboy-black font-bold uppercase tracking-widest h-16 rounded-xl flex items-center justify-center gap-2 transition-all shadow-lg text-sm group">
                       <PhoneCall size={18} className="text-poboy-red group-hover:text-poboy-black transition-colors" />
                       ALEXANDRIA
                     </a>
-                    <a href="tel:+13185550124" onClick={onClose} className="w-full bg-white hover:bg-poboy-yellow text-poboy-black font-bold uppercase tracking-widest h-16 rounded-xl flex items-center justify-center gap-2 transition-all shadow-lg text-sm group">
+                    <a href="tel:+13184420818" onClick={onClose} className="w-full bg-white hover:bg-poboy-yellow text-poboy-black font-bold uppercase tracking-widest h-16 rounded-xl flex items-center justify-center gap-2 transition-all shadow-lg text-sm group">
                       <PhoneCall size={18} className="text-poboy-red group-hover:text-poboy-black transition-colors" />
                       PINEVILLE
                     </a>

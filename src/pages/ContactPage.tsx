@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { MapPin, Phone, Clock, Send, Mail, User, MessageSquare } from 'lucide-react';
+import { PageSEO } from '../components/PageSEO';
+import { LocalBusinessSchema } from '../components/StructuredData';
 
 export const ContactPage = () => {
   const [formData, setFormData] = useState({
@@ -55,12 +57,18 @@ export const ContactPage = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col font-sans mb-0">
+      <PageSEO
+        title="Contact Us | Poboy Express"
+        description="Get in touch with Poboy Express in Alexandria or Pineville, LA. Find our address, phone numbers, hours, and send us a message."
+        path="/contact"
+      />
+      <LocalBusinessSchema />
       {/* Hero Section */}
       <section className="relative h-[40vh] min-h-[400px] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 z-0">
-          <img 
-            src="/poboyexpressrestaurant.jpeg" 
-            alt="Poboy Express Restaurant" 
+          <img
+            src="/poboyexpressrestaurant.jpeg"
+            alt="Poboy Express Restaurant"
             className="w-full h-full object-cover object-center"
           />
           <div className="absolute inset-0 bg-black/60 backdrop-blur-[2px]"></div>
@@ -120,7 +128,7 @@ export const ContactPage = () => {
                   </div>
                   <div>
                     <h4 className="font-bold text-gray-900 mb-0.5">Call to Order</h4>
-                    <a href="tel:+13185550123" className="text-poboy-red hover:underline font-bold text-lg">(318) 555-0123</a>
+                    <a href="tel:+13187046424" className="text-poboy-red hover:underline font-bold text-lg">(318) 704-6424</a>
                   </div>
                 </div>
               </div>
@@ -152,7 +160,7 @@ export const ContactPage = () => {
                   </div>
                   <div>
                     <h4 className="font-bold text-gray-900 mb-0.5">Call to Order</h4>
-                    <a href="tel:+13185550456" className="text-poboy-black hover:text-poboy-yellow transition-colors font-bold text-lg hover:underline">(318) 555-0456</a>
+                    <a href="tel:+13184420818" className="text-poboy-black hover:text-poboy-yellow transition-colors font-bold text-lg hover:underline">(318) 442-0818</a>
                   </div>
                 </div>
               </div>

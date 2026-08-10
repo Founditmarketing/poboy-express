@@ -144,14 +144,14 @@ export const BagDrawer = () => {
             <span className="text-poboy-black text-sm font-bold uppercase tracking-widest font-display mb-2 drop-shadow-sm">CALL ORDER IN!</span>
             <div className="flex gap-3 w-full">
               <a 
-                href="tel:+13185550123"
+                href="tel:+13187046424"
                 className="flex-1 bg-poboy-yellow hover:bg-yellow-400 text-poboy-black h-14 rounded-xl flex items-center justify-center gap-2 transition-all shadow-md text-sm font-bold tracking-widest group"
               >
                 <PhoneCall size={16} className="group-hover:scale-110 transition-transform" />
                 ALEXANDRIA
               </a>
               <a 
-                href="tel:+13185550124"
+                href="tel:+13184420818"
                 className="flex-1 bg-poboy-yellow hover:bg-yellow-400 text-poboy-black h-14 rounded-xl flex items-center justify-center gap-2 transition-all shadow-md text-sm font-bold tracking-widest group"
               >
                 <PhoneCall size={16} className="group-hover:scale-110 transition-transform" />

@@ -4,6 +4,7 @@ import { ChevronRight, Search } from 'lucide-react';
 import { MENU_CATALOG } from '../data/menuData';
 import { Category, Product } from '../types/Menu';
 import { ProductModal } from '../components/ProductModal';
+import { PageSEO } from '../components/PageSEO';
 
 const getProductIcon = (product: Product) => {
   const cat = product.category.toLowerCase();
@@ -112,6 +113,11 @@ export const MenuPage = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 pt-36 md:pt-40 pb-32 font-sans">
+      <PageSEO
+        title="Full Menu | Poboy Express"
+        description="Browse po'boys, seafood baskets, burgers, salads, and more at Poboy Express. Build your order online before calling it in to Alexandria or Pineville."
+        path="/menu"
+      />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-12">
           <h1 className="text-5xl font-display font-medium text-poboy-black tracking-tight mb-4 uppercase">

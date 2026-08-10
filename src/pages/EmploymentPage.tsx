@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'motion/react';
 import { MapPin, Phone, Briefcase, Send, Mail, User, Map, Calendar, Users, Star, UploadCloud } from 'lucide-react';
+import { PageSEO } from '../components/PageSEO';
 
 export const EmploymentPage = () => {
   const [formData, setFormData] = useState({
@@ -61,6 +62,11 @@ export const EmploymentPage = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col font-sans mb-0">
+      <PageSEO
+        title="Careers & Employment | Poboy Express"
+        description="Join the Poboy Express family. Apply now for open positions at our Alexandria and Pineville, LA locations."
+        path="/employment"
+      />
       {/* Hero Section */}
       <section className="relative h-[40vh] min-h-[400px] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 z-0">

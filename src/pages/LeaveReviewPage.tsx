@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { motion } from 'motion/react';
 import { MapPin, ExternalLink, Star } from 'lucide-react';
+import { PageSEO } from '../components/PageSEO';
 
 export const LeaveReviewPage = () => {
   useEffect(() => {
@@ -9,6 +10,11 @@ export const LeaveReviewPage = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col font-sans mb-0">
+      <PageSEO
+        title="Leave A Review | Poboy Express"
+        description="Had a great experience at Poboy Express? Leave a review for our Alexandria or Pineville location and let us know!"
+        path="/leave-review"
+      />
       {/* Hero Section */}
       <section className="relative h-[40vh] min-h-[400px] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 z-0">
