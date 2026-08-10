@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { MapPin, Phone, Clock, Send, Mail, User, MessageSquare } from 'lucide-react';
 import { PageSEO } from '../components/PageSEO';
+import { LocalBusinessSchema } from '../components/StructuredData';
 
 export const ContactPage = () => {
   const [formData, setFormData] = useState({
@@ -61,6 +62,7 @@ export const ContactPage = () => {
         description="Get in touch with Poboy Express in Alexandria or Pineville, LA. Find our address, phone numbers, hours, and send us a message."
         path="/contact"
       />
+      <LocalBusinessSchema />
       {/* Hero Section */}
       <section className="relative h-[40vh] min-h-[400px] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 z-0">

@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { motion } from 'motion/react';
 import { Star } from 'lucide-react';
 import { PageSEO } from '../components/PageSEO';
+import { ReviewsSchema } from '../components/StructuredData';
 
 export const ReviewsPage = () => {
   useEffect(() => {
@@ -81,6 +82,7 @@ export const ReviewsPage = () => {
         description="See what locals are saying about Poboy Express — real reviews from customers in Alexandria and Pineville, Louisiana."
         path="/reviews"
       />
+      <ReviewsSchema reviews={reviews} />
       {/* Hero Section */}
       <section className="relative h-[40vh] min-h-[400px] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 z-0">

@@ -5,6 +5,7 @@ import { motion, AnimatePresence, useScroll, useTransform } from 'motion/react';
 import { BagProvider, useBag } from './context/BagContext';
 import { BagDrawer } from './components/BagDrawer';
 import { PageSEO } from './components/PageSEO';
+import { OrganizationSchema, LocalBusinessSchema } from './components/StructuredData';
 import { MenuPage } from './pages/MenuPage';
 import { ContactPage } from './pages/ContactPage';
 import { EmploymentPage } from './pages/EmploymentPage';
@@ -1128,6 +1129,7 @@ const HomePage = () => {
         description="Family-owned Cajun restaurant serving authentic po'boys, seafood baskets, and Louisiana classics since 1999. Visit us in Alexandria or Pineville, LA."
         path="/"
       />
+      <LocalBusinessSchema />
       <Hero />
       <QuickActionBanner />
       <FoodSpotlight />
@@ -1146,6 +1148,7 @@ export default function App() {
       <BrowserRouter>
         <ScrollToTop />
         <div className="min-h-screen font-sans selection:bg-poboy-yellow selection:text-poboy-black relative">
+          <OrganizationSchema />
           <Header />
           <FloatingOrderButton />
           <BagDrawer />
