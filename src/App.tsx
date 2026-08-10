@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route, Link, useLocation } from 'react-router-do
 import { motion, AnimatePresence, useScroll, useTransform } from 'motion/react';
 import { BagProvider, useBag } from './context/BagContext';
 import { BagDrawer } from './components/BagDrawer';
+import { PageSEO } from './components/PageSEO';
 import { MenuPage } from './pages/MenuPage';
 import { ContactPage } from './pages/ContactPage';
 import { EmploymentPage } from './pages/EmploymentPage';
@@ -1122,6 +1123,11 @@ const FloatingOrderButton = () => {
 const HomePage = () => {
   return (
     <main>
+      <PageSEO
+        title="Poboy Express | Authentic Cajun Po'Boys in Alexandria & Pineville, LA"
+        description="Family-owned Cajun restaurant serving authentic po'boys, seafood baskets, and Louisiana classics since 1999. Visit us in Alexandria or Pineville, LA."
+        path="/"
+      />
       <Hero />
       <QuickActionBanner />
       <FoodSpotlight />

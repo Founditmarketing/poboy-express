@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { MapPin, Phone, Clock, Send, Mail, User, MessageSquare } from 'lucide-react';
+import { PageSEO } from '../components/PageSEO';
 
 export const ContactPage = () => {
   const [formData, setFormData] = useState({
@@ -55,12 +56,17 @@ export const ContactPage = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col font-sans mb-0">
+      <PageSEO
+        title="Contact Us | Poboy Express"
+        description="Get in touch with Poboy Express in Alexandria or Pineville, LA. Find our address, phone numbers, hours, and send us a message."
+        path="/contact"
+      />
       {/* Hero Section */}
       <section className="relative h-[40vh] min-h-[400px] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 z-0">
-          <img 
-            src="/poboyexpressrestaurant.jpeg" 
-            alt="Poboy Express Restaurant" 
+          <img
+            src="/poboyexpressrestaurant.jpeg"
+            alt="Poboy Express Restaurant"
             className="w-full h-full object-cover object-center"
           />
           <div className="absolute inset-0 bg-black/60 backdrop-blur-[2px]"></div>
