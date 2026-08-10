@@ -1,7 +1,5 @@
-// TODO(task: canonical domain): SITE_URL must match whichever domain is decided
-// as canonical (po-boyexpress.com vs www.po-boyexpress.com) — see audit item D16.
 const SITE_NAME = 'Poboy Express';
-const SITE_URL = 'https://po-boyexpress.com';
+const SITE_URL = 'https://www.po-boyexpress.com';
 const DEFAULT_IMAGE = `${SITE_URL}/poboyexpresslogo.png`;
 
 interface PageSEOProps {
